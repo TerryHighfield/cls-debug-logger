@@ -1,4 +1,5 @@
 import * as TypeMoq from 'typemoq';
+
 import { ILogProvider } from '../src/ILogProvider';
 import { Logger } from '../src/Logger';
 
@@ -29,10 +30,10 @@ test('should format the log message', () => {
   );
 });
 
-test('should log a session id', () => {
+test('should log a session id', async () => {
   const logger = new Logger('namespace_', logProvider.object);
 
-  logger.session(() => {
+  await logger.session(async () => {
     logger.log('%d : %s', 1154, 'a string');
   }, 'a test session');
 
@@ -65,10 +66,10 @@ test("should log 'undefined' for any logs outside a session", () => {
   );
 });
 
-test('should use a uuid as a default session id', () => {
+test('should use a uuid as a default session id', async () => {
   const logger = new Logger('namespace_', logProvider.object);
 
-  logger.session(() => {
+  await logger.session(async () => {
     logger.log('fr');
   });
 
@@ -86,10 +87,10 @@ test('should use a uuid as a default session id', () => {
   );
 });
 
-test('should use different uuid each time as a default session id', () => {
-  const logger = new Logger('namespace_', logProvider.object);
+test('should use different uuid each time as a default session id', async () => {
+  const logger = new Logger('namespace_t', logProvider.object);
 
-  logger.session(() => {
+  await logger.session(async () => {
     logger.log('fr');
   });
 
@@ -109,7 +110,7 @@ test('should use different uuid each time as a default session id', () => {
     TypeMoq.Times.exactly(1)
   );
 
-  logger.session(() => {
+  await logger.session(async () => {
     logger.log('fr');
   });
 
@@ -126,6 +127,5 @@ test('should use different uuid each time as a default session id', () => {
 
 /*
 TODO:
- - use default session id
- - async session
+ - Cross contamination of sessions: Should not be able to load the details of another session
 */

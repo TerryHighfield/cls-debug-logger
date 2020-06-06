@@ -31,14 +31,14 @@ export class Logger implements ILogger {
     });
   }
 
-  public session(session: () => void, sessionId?: string) {
+  public session<T>(session: () => Promise<T>, sessionId?: string) {
     const logSessionNS = this.getNamespace();
     sessionId = sessionId || uuid();
 
-    return logSessionNS.runAndReturn(() => {
+    return logSessionNS.runAndReturn(async () => {
       logSessionNS.set(this.logSessionIdKey, sessionId);
 
-      session();
+      await session();
     });
   }
 }
