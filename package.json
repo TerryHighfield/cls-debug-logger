@@ -1,0 +1,55 @@
+{
+  "name": "cls-debug-logger",
+  "version": "0.0.0",
+  "description": "A logger that makes use of continuation-local-storage (cls)to record logs with the same sessionId throughout the function call chain including callbacks and event emitter handlers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TerryHighfield/cls-debug-logger.git"
+  },
+  "keywords": [
+    "continuation-local-storage",
+    "local-storage",
+    "cls",
+    "debug",
+    "logger",
+    "logging"
+  ],
+  "author": "Terence Highfield",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/continuation-local-storage": "^3.2.2",
+    "@types/debug": "^4.1.5",
+    "@types/jest": "^25.2.3",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.0",
+    "ts-lint": "^4.5.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.3.0",
+    "typemoq": "^2.1.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "continuation-local-storage": "^3.2.1",
+    "debug": "^4.1.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  }
+}
