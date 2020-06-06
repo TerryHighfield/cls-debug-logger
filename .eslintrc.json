@@ -1,4 +1,6 @@
 {
+  "parser": "eslint-plugin-typescript/parser",
+  "plugins": ["typescript"],
   "extends": ["tslint-plugin-prettier", "tslint-config-prettier"],
   "rules": {
     "prettier": [true, { "singleQuote": true }]

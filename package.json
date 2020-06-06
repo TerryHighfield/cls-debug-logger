@@ -24,13 +24,15 @@
     "@types/continuation-local-storage": "^3.2.2",
     "@types/debug": "^4.1.5",
     "@types/jest": "^25.2.3",
+    "@types/uuid": "^8.0.0",
+    "eslint": "^7.2.0",
+    "eslint-plugin-typescript": "^0.14.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lint-staged": "^10.2.9",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "ts-jest": "^26.1.0",
-    "ts-lint": "^4.5.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
     "typemoq": "^2.1.0",
@@ -38,7 +40,8 @@
   },
   "dependencies": {
     "continuation-local-storage": "^3.2.1",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "uuid": "^8.1.0"
   },
   "prettier": {
     "trailingComma": "es5",
