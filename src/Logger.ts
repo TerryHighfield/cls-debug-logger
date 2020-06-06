@@ -1,8 +1,9 @@
-import { ILogProvider } from './ILogProvider';
-import { ILogger } from './ILogger';
-import util from 'util';
 import * as CLS from 'continuation-local-storage';
+import util from 'util';
 import { v4 as uuid } from 'uuid';
+
+import { ILogger } from './ILogger';
+import { ILogProvider } from './ILogProvider';
 
 export class Logger implements ILogger {
   private readonly logSessionIdKey = 'logSessionId';
