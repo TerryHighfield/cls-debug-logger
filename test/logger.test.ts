@@ -244,3 +244,7 @@ test('should not format message objects', () => {
     TypeMoq.Times.exactly(1)
   );
 });
+
+/*
+TODO: Raise a bug against cls-bluebird, consequative sessions using async
+*/

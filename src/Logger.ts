@@ -1,6 +1,7 @@
 import * as CLS from 'cls-hooked';
 import util from 'util';
 import { v4 as uuid } from 'uuid';
+import { EventEmitter } from 'events';
 
 import { ILogger } from './ILogger';
 import { ILogProvider } from './ILogProvider';
@@ -157,5 +158,19 @@ export class Logger implements ILogger {
       return namespace.bind(func);
     }
     return func;
+  }
+
+  /**
+   * Bind an EventEmitter to the currently executing session
+   *
+   * @param emitter The emitter to bind to the active session. All
+   * the listeners of the event emitter will not log will the active
+   * session ids
+   */
+  public bindEmitter<T>(emitter: EventEmitter) {
+    const namespace = this.getNamespace();
+    if (namespace) {
+      namespace.bindEmitter(emitter);
+    }
   }
 }

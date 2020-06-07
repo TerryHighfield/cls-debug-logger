@@ -1,39 +1,31 @@
 import * as TypeMoq from 'typemoq';
+import { EventEmitter } from 'events';
 
 import { ILogProvider } from '../src/ILogProvider';
 import { Logger } from '../src/Logger';
 
-class TestNotifier {
-  private callback: () => void;
-  wait(callback: () => void) {
-    this.callback = callback;
-  }
-
-  notifiy() {
-    this.callback();
-  }
-}
+class TestEmitter extends EventEmitter {}
 
 let logProvider: TypeMoq.IMock<ILogProvider>;
 beforeEach(() => {
   logProvider = TypeMoq.Mock.ofType<ILogProvider>();
 });
 
-test('unbound callback from another context will not log with a session id', async () => {
+test('unbound event listener should not recieve a session id', async () => {
   const logger = new Logger('namespace_hshfdg3', logProvider.object);
 
-  const testNotifier = new TestNotifier();
+  const testEmitter = new TestEmitter();
   const sessionPromise = logger
     .session(async () => {
       await new Promise((resolve) => {
-        testNotifier.wait(() => {
+        testEmitter.once('testNotification', () => {
           logger.log('timeout ping');
           resolve();
         });
       });
-    }, 'session_a')
+    }, 'session_afs')
     .then();
-  testNotifier.notifiy();
+  testEmitter.emit('testNotification');
   await sessionPromise;
 
   logProvider.verify(
@@ -48,21 +40,20 @@ test('unbound callback from another context will not log with a session id', asy
   );
 });
 
-test('bound callback from another context will log with a session id', async () => {
+test('bound event listener should recieve a session id', async () => {
   const logger = new Logger('namespace_hshfdg3', logProvider.object);
 
-  const testNotifier = new TestNotifier();
+  const testEmitter = new TestEmitter();
   const sessionPromise = logger.session(async () => {
+    logger.bindEmitter(testEmitter);
     await new Promise((resolve) => {
-      testNotifier.wait(
-        logger.bind(() => {
-          logger.log('timeout ping');
-          resolve();
-        })
-      );
+      testEmitter.once('testNotification', () => {
+        logger.log('timeout ping');
+        resolve();
+      });
     });
-  }, 'session_a');
-  testNotifier.notifiy();
+  }, 'session_afs');
+  testEmitter.emit('testNotification');
 
   await sessionPromise;
 
@@ -71,7 +62,7 @@ test('bound callback from another context will log with a session id', async () 
       o.log(
         TypeMoq.It.isObjectWith({
           message: 'timeout ping',
-          session: 'session_a',
+          session: 'session_afs',
         })
       ),
     TypeMoq.Times.exactly(1)
