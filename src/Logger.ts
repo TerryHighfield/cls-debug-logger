@@ -41,6 +41,10 @@ export class Logger implements ILogger {
     namespace = namespace || uuid();
   }
 
+  private createNamespace(): CLS.Namespace {
+    return CLS.createNamespace(this.namespace);
+  }
+
   /**
    * The continuation local storage namespace in which the session ids are stored
    *
@@ -50,7 +54,7 @@ export class Logger implements ILogger {
   private getNamespace(params?: { create?: boolean }): CLS.Namespace {
     return (
       CLS.getNamespace(this.namespace) ||
-      (params?.create && CLS.createNamespace(this.namespace))
+      (params?.create && this.createNamespace())
     );
   }
 
@@ -116,11 +120,11 @@ export class Logger implements ILogger {
    * @param sessionId The id of the session context, this will be outputted
    * with each log. Optional: a Uuid will be created
    */
-  public async session<T>(session: () => Promise<T>, sessionId?: string) {
+  public session<T>(session: () => Promise<T>, sessionId?: string): Promise<T> {
     const logSessionNS = this.getNamespace({ create: true });
     sessionId = sessionId || uuid();
 
-    await logSessionNS.runAndReturn(async () => {
+    return logSessionNS.runAndReturn(async () => {
       const existingSession = this.getSessionId();
       if (!existingSession) {
         // Create a parent session
@@ -137,7 +141,21 @@ export class Logger implements ILogger {
       }
 
       // Run the callback within the new session context
-      await session();
+      return session();
     });
+  }
+
+  /**
+   * Bind a function call back to the currently executing session
+   *
+   * @param func The fucntion to bind to the active session. The
+   * function will now log with the session ids of active session.
+   */
+  public bind<T>(func: () => T) {
+    const namespace = this.getNamespace();
+    if (namespace) {
+      return namespace.bind(func);
+    }
+    return func;
   }
 }

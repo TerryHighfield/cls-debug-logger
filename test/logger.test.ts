@@ -109,7 +109,6 @@ test('should use different uuid each time as a default session id', async () => 
       ),
     TypeMoq.Times.exactly(1)
   );
-
   logProvider.reset();
 
   await logger.session(async () => {
@@ -150,7 +149,7 @@ test('should use log sub-session id', async () => {
   );
 });
 
-test('should use remove the sub session when the sub session is complete', async () => {
+test('should remove the sub-session ids when the sub-session is complete', async () => {
   const logger = new Logger('namespace_d', logProvider.object);
 
   await logger.session(async () => {
