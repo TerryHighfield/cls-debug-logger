@@ -44,7 +44,8 @@ export class Logger implements ILogger {
   /**
    * The continuation local storage namespace in which the session ids are stored
    *
-   * @param create  True if a namespace should be created if it does not already exist
+   * @param params         Namespace fetch and creation parameters
+   * @param params.create  True if a namespace should be created if it does not already exist
    */
   private getNamespace(params?: { create?: boolean }): CLS.Namespace {
     return (
