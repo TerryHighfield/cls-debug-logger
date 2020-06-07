@@ -110,22 +110,138 @@ test('should use different uuid each time as a default session id', async () => 
     TypeMoq.Times.exactly(1)
   );
 
+  logProvider.reset();
+
   await logger.session(async () => {
-    logger.log('fr');
+    logger.log('frew');
   });
 
   logProvider.verify(
     (o) =>
       o.log(
         TypeMoq.It.is(
-          (log) => log.message === 'fr' && log.session !== otherSessionId
+          (log) => log.message === 'frew' && log.session !== otherSessionId
         )
       ),
     TypeMoq.Times.exactly(1)
   );
 });
 
-/*
-TODO:
- - Cross contamination of sessions: Should not be able to load the details of another session
-*/
+test('should use log sub-session id', async () => {
+  const logger = new Logger('namespace_ljhg', logProvider.object);
+
+  await logger.session(async () => {
+    await logger.session(async () => {
+      logger.log('sub session message');
+    }, 'subSession');
+  }, 'parent session');
+
+  logProvider.verify(
+    (o) =>
+      o.log(
+        TypeMoq.It.is(
+          (log) =>
+            log.message === 'sub session message' &&
+            log.session === 'parent session' &&
+            log.subSessions[0] === 'subSession'
+        )
+      ),
+    TypeMoq.Times.exactly(1)
+  );
+});
+
+test('should use remove the sub session when the sub session is complete', async () => {
+  const logger = new Logger('namespace_d', logProvider.object);
+
+  await logger.session(async () => {
+    // Session level 1
+    await logger.session(async () => {
+      // Session level 2
+      logger.log('session lvl 2 message');
+
+      logProvider.verify(
+        (o) =>
+          o.log(
+            TypeMoq.It.is(
+              (log) =>
+                log.message === 'session lvl 2 message' &&
+                log.session === 'parent session' &&
+                log.subSessions[0] === 'subSession' &&
+                !log.subSessions[1] // No 2nd sub session id
+            )
+          ),
+        TypeMoq.Times.exactly(1)
+      );
+      logProvider.reset();
+
+      await logger.session(async () => {
+        // Session level 3
+        logger.log('session lvl 3 message');
+
+        logProvider.verify(
+          (o) =>
+            o.log(
+              TypeMoq.It.is(
+                (log) =>
+                  log.message === 'session lvl 3 message' &&
+                  log.session === 'parent session' &&
+                  log.subSessions[0] === 'subSession' &&
+                  log.subSessions[1] === 'subSessionLvl2' // Another sub session id
+              )
+            ),
+          TypeMoq.Times.exactly(1)
+        );
+        logProvider.reset();
+      }, 'subSessionLvl2');
+
+      // Session level 2
+      logger.log('session lvl 2 message 2');
+
+      logProvider.verify(
+        (o) =>
+          o.log(
+            TypeMoq.It.is(
+              (log) =>
+                log.message === 'session lvl 2 message 2' &&
+                log.session === 'parent session' &&
+                log.subSessions[0] === 'subSession' &&
+                !log.subSessions[1] // No 2nd sub session id
+            )
+          ),
+        TypeMoq.Times.exactly(1)
+      );
+    }, 'subSession');
+  }, 'parent session');
+});
+
+test('should use sub session should create the parent session if it does not exist', async () => {
+  const logger = new Logger('namespace_23', logProvider.object);
+
+  await logger.session(async () => {
+    logger.log('sub session message');
+  }, 'subSession');
+
+  logProvider.verify(
+    (o) =>
+      o.log(
+        TypeMoq.It.is(
+          (log) =>
+            log.message === 'sub session message' &&
+            log.session === 'subSession'
+        )
+      ),
+    TypeMoq.Times.exactly(1)
+  );
+});
+
+test('should not format message objects', () => {
+  const logger = new Logger('namespace_23', logProvider.object);
+
+  const logMessageObject = { b: 3, c: 'a' };
+  logger.log(logMessageObject);
+
+  logProvider.verify(
+    (o) => o.log(TypeMoq.It.isObjectWith({ message: logMessageObject })),
+    TypeMoq.Times.exactly(1)
+  );
+});
