@@ -13,5 +13,5 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["./**/*"]
 }

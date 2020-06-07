@@ -6,6 +6,7 @@ import { EventEmitter } from 'events';
 import { ILogger } from './ILogger';
 import { ILogProvider } from './ILogProvider';
 import { ILogMessage } from './ILogMessage';
+import { DebugLogProvider } from './DebugLogProvider';
 
 /**
  * A logger that uses continuation local storage to maintain a
@@ -39,7 +40,8 @@ export class Logger implements ILogger {
     private readonly namespace: string,
     public readonly logProvider: ILogProvider
   ) {
-    namespace = namespace || uuid();
+    this.namespace = namespace || uuid();
+    this.logProvider = logProvider || new DebugLogProvider(namespace);
   }
 
   private createNamespace(): CLS.Namespace {

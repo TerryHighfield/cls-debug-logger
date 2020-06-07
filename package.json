@@ -4,7 +4,8 @@
   "description": "A logger that makes use of continuation-local-storage (cls)to record logs with the same sessionId throughout the function call chain including callbacks and event emitter handlers.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "example": "cross-env DEBUG=* ts-node ./example/index.ts"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,9 @@
   },
   "dependencies": {
     "cls-hooked": "^4.2.2",
+    "cross-env": "^7.0.2",
     "debug": "^4.1.1",
+    "ts-node": "^8.10.2",
     "uuid": "^8.1.0"
   },
   "prettier": {

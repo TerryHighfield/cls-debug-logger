@@ -1,7 +1,7 @@
 import * as TypeMoq from 'typemoq';
 
-import { ILogProvider } from '../src/ILogProvider';
-import { Logger } from '../src/Logger';
+import { ILogProvider } from '../lib/ILogProvider';
+import { Logger } from '../lib/Logger';
 
 let logProvider: TypeMoq.IMock<ILogProvider>;
 beforeEach(() => {
