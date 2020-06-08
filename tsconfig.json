@@ -6,12 +6,11 @@
     "lib": ["es6"],
     "allowJs": true,
     "checkJs": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
     "types": ["node", "jest"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "baseUrl": "."
+    "declaration": true,
+    "outDir": "lib",
+    "strict": true
   },
-  "include": ["./**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "test/**/*"]
 }

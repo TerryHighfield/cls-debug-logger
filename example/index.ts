@@ -1,6 +1,6 @@
-import { createLogger } from '..';
+import { ILogger, createLogger } from '../src';
 
-const logger = createLogger('my_namespace');
+const logger: ILogger = createLogger('my_namespace');
 
 // Log object
 logger.log({

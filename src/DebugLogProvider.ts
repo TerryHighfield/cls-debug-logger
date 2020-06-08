@@ -1,5 +1,5 @@
 import { ILogProvider } from './ILogProvider';
-import util from 'util';
+import * as util from 'util';
 import { v4 as uuid } from 'uuid';
 import debug from 'debug';
 

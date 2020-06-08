@@ -1,10 +1,10 @@
-import { ILogProvider } from './lib/ILogProvider';
-import { Logger } from './lib/Logger';
-import { ILogger } from './lib/ILogger';
+import { ILogProvider } from './ILogProvider';
+import { Logger } from './Logger';
+import { ILogger } from './ILogger';
 
-export * from './lib/ILogger';
-export * from './lib/ILogMessage';
-export * from './lib/ILogProvider';
+export * from './ILogProvider';
+export * from './ILogMessage';
+export * from './ILogger';
 
 let globalLogProvider: ILogProvider | undefined;
 

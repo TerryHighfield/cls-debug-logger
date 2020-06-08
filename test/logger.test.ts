@@ -1,7 +1,7 @@
 import * as TypeMoq from 'typemoq';
 
-import { ILogProvider } from '../lib/ILogProvider';
-import { Logger } from '../lib/Logger';
+import { ILogProvider } from '../src/ILogProvider';
+import { Logger } from '../src/Logger';
 
 let logProvider: TypeMoq.IMock<ILogProvider>;
 beforeEach(() => {
@@ -142,6 +142,7 @@ test('should use log sub-session id', async () => {
           (log) =>
             log.message === 'sub session message' &&
             log.session === 'parent session' &&
+            log.subSessions !== undefined &&
             log.subSessions[0] === 'subSession'
         )
       ),
@@ -165,6 +166,7 @@ test('should remove the sub-session ids when the sub-session is complete', async
               (log) =>
                 log.message === 'session lvl 2 message' &&
                 log.session === 'parent session' &&
+                log.subSessions !== undefined &&
                 log.subSessions[0] === 'subSession' &&
                 !log.subSessions[1] // No 2nd sub session id
             )
@@ -184,6 +186,7 @@ test('should remove the sub-session ids when the sub-session is complete', async
                 (log) =>
                   log.message === 'session lvl 3 message' &&
                   log.session === 'parent session' &&
+                  log.subSessions !== undefined &&
                   log.subSessions[0] === 'subSession' &&
                   log.subSessions[1] === 'subSessionLvl2' // Another sub session id
               )
@@ -203,6 +206,7 @@ test('should remove the sub-session ids when the sub-session is complete', async
               (log) =>
                 log.message === 'session lvl 2 message 2' &&
                 log.session === 'parent session' &&
+                log.subSessions !== undefined &&
                 log.subSessions[0] === 'subSession' &&
                 !log.subSessions[1] // No 2nd sub session id
             )

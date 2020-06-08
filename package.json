@@ -3,9 +3,19 @@
   "version": "0.0.0",
   "description": "A logger that makes use of continuation-local-storage (cls)to record logs with the same sessionId throughout the function call chain including callbacks and event emitter handlers.",
   "main": "index.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
+    "lint": "eslint",
     "test": "jest",
-    "example": "cross-env DEBUG=* ts-node ./example/index.ts"
+    "build": "tsc",
+    "example": "cross-env DEBUG=* ts-node ./example/index.ts",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm test && npm run lint",
+    "version": "npm run lint && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -15,9 +25,11 @@
     "continuation-local-storage",
     "local-storage",
     "cls",
+    "cls-hooked",
     "debug",
     "logger",
-    "logging"
+    "logging",
+    "session"
   ],
   "author": "Terence Highfield",
   "license": "ISC",

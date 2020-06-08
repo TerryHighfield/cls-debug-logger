@@ -1,15 +1,19 @@
 import * as TypeMoq from 'typemoq';
 
-import { ILogProvider } from '../lib/ILogProvider';
-import { Logger } from '../lib/Logger';
+import { ILogProvider } from '../src/ILogProvider';
+import { Logger } from '../src/Logger';
 
 class TestNotifier {
-  private callback: () => void;
+  private callback: (() => void) | undefined = undefined;
+
   wait(callback: () => void) {
     this.callback = callback;
   }
 
   notifiy() {
+    if (!this.callback) {
+      throw new Error('Call back not set');
+    }
     this.callback();
   }
 }

@@ -9,7 +9,7 @@ export interface ILogger {
    * supplied args. @see util.format and @see util.formatWithOptions
    * @param args     Any arguments to fill the string
    */
-  log(message: string | object, ...args: any[]);
+  log(message: string | object, ...args: any[]): void;
 
   /**
    * Create a logging session. All logs made in the executing session with
@@ -35,7 +35,7 @@ export interface ILogger {
    * @param func The fucntion to bind to the active session. The
    * function will now log with the session ids of active session.
    */
-  bind<T>(func: () => T);
+  bind<T>(func: () => T): () => T;
 
   /**
    * Bind an EventEmitter to the currently executing session
@@ -44,5 +44,5 @@ export interface ILogger {
    * the listeners of the event emitter will not log will the active
    * session ids
    */
-  bindEmitter<T>(emitter: EventEmitter);
+  bindEmitter<T>(emitter: EventEmitter): void;
 }

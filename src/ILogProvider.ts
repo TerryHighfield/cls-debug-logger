@@ -1,5 +1,5 @@
 import { ILogMessage } from './ILogMessage';
 
 export interface ILogProvider {
-  log(logMessage: ILogMessage);
+  log(logMessage: ILogMessage): void;
 }

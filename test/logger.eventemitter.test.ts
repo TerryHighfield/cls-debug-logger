@@ -1,8 +1,8 @@
 import * as TypeMoq from 'typemoq';
 import { EventEmitter } from 'events';
 
-import { ILogProvider } from '../lib/ILogProvider';
-import { Logger } from '../lib/Logger';
+import { ILogProvider } from '../src/ILogProvider';
+import { Logger } from '../src/Logger';
 
 class TestEmitter extends EventEmitter {}
 

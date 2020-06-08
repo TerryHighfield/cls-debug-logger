@@ -1,5 +1,5 @@
 import * as CLS from 'cls-hooked';
-import util from 'util';
+import * as util from 'util';
 import { v4 as uuid } from 'uuid';
 import { EventEmitter } from 'events';
 
@@ -37,12 +37,9 @@ export class Logger implements ILogger {
    * @param logProvider  The a wrapper around the logging engine: Debug, Winston etc
    */
   constructor(
-    private readonly namespace: string,
-    public readonly logProvider: ILogProvider
-  ) {
-    this.namespace = namespace || uuid();
-    this.logProvider = logProvider || new DebugLogProvider(namespace);
-  }
+    private readonly namespace: string = uuid(),
+    public readonly logProvider: ILogProvider = new DebugLogProvider(namespace)
+  ) {}
 
   private createNamespace(): CLS.Namespace {
     return CLS.createNamespace(this.namespace);
@@ -123,9 +120,11 @@ export class Logger implements ILogger {
    * @param sessionId The id of the session context, this will be outputted
    * with each log. Optional: a Uuid will be created
    */
-  public session<T>(session: () => Promise<T>, sessionId?: string): Promise<T> {
+  public session<T>(
+    session: () => Promise<T>,
+    sessionId: string = uuid()
+  ): Promise<T> {
     const logSessionNS = this.getNamespace({ create: true });
-    sessionId = sessionId || uuid();
 
     return logSessionNS.runAndReturn(async () => {
       const existingSession = this.getSessionId();
