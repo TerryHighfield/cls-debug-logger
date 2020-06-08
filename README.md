@@ -100,6 +100,6 @@ await logger.session(async () => {
 Output:
 
 ```
-my_namespace "{ message: '4: a log message', session: 'my session id' }" +2ms
-my_namespace "{ message: '10: a sub log message', session: 'my session id', subSessions: [ 'my sub-session id' ] }" +1ms
+my_namespace { message: '4: a log message', session: 'my session id' } +3ms
+my_namespace { message: '10: a sub log message', session: 'my session id', subSessions: [ 'my sub-session id' ] } +0ms
 ```

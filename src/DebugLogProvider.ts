@@ -17,7 +17,7 @@ export class DebugLogProvider implements ILogProvider {
   /**
    * Log the provided object.
    *
-   * @param logMessage The provided object will be formatted (%j) in debug
+   * @param logMessage The message to log
    */
   log(logMessage: object) {
     const inspectOptions: util.InspectOptions = {
@@ -26,6 +26,6 @@ export class DebugLogProvider implements ILogProvider {
       breakLength: 120,
       getters: 'get',
     };
-    this.debug('%j', util.inspect(logMessage, inspectOptions));
+    this.debug(util.inspect(logMessage, inspectOptions));
   }
 }
