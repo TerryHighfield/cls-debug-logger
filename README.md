@@ -75,8 +75,31 @@ Log the provided object `logMessage`
 
 ## ILogMessage
 
-```
+```javascript
   message: string | object;
   session?: string;
   subSessions?: string[];
+```
+
+# Example
+
+```javascript
+const logger: ILogger = createLogger('my_namespace');
+
+// Session
+await logger.session(async () => {
+  logger.log('%d: %s', 4, 'a log message');
+
+  // Sub session
+  await logger.session(async () => {
+    logger.log('%d: %s', 10, 'a sub log message');
+  }, 'my sub-session id');
+}, 'my session id');
+```
+
+Output:
+
+```
+my_namespace "{ message: '4: a log message', session: 'my session id' }" +2ms
+my_namespace "{ message: '10: a sub log message', session: 'my session id', subSessions: [ 'my sub-session id' ] }" +1ms
 ```
