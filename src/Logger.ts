@@ -92,7 +92,7 @@ export class Logger implements ILogger {
     };
     const logMessage: ILogMessage = {
       message:
-        typeof message === 'object'
+        typeof message === 'object' || Array.isArray(message)
           ? message
           : util.formatWithOptions(inspectOptions, message, ...args),
       session: this.getSessionId() || 'undefined',
