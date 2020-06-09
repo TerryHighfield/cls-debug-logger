@@ -26,6 +26,6 @@ export class DebugLogProvider implements ILogProvider {
       breakLength: 120,
       getters: 'get',
     };
-    this.debug(util.format('%j', util.inspect(logMessage, inspectOptions)));
+    this.debug(util.formatWithOptions(inspectOptions, '%j', logMessage));
   }
 }
