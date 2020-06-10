@@ -6,12 +6,6 @@ export * from './ILogProvider';
 export * from './ILogMessage';
 export * from './ILogger';
 
-let globalLogProvider: ILogProvider | undefined;
-
-export function setGlobalLogProvider(logProvider?: ILogProvider) {
-  globalLogProvider = logProvider;
-}
-
 /**
  * Create a logger instance.
  *
@@ -31,5 +25,5 @@ export function createLogger(
   namespace: string,
   logProvider?: ILogProvider
 ): ILogger {
-  return new Logger(namespace, logProvider || globalLogProvider);
+  return new Logger(namespace, logProvider);
 }
