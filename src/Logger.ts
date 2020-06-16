@@ -83,7 +83,7 @@ export class Logger implements ILogger {
    * supplied args. @see util.format and @see util.formatWithOptions
    * @param args     Any arguments to fill the string
    */
-  public log(message: string | object, ...args: any[]) {
+  public log(message: any, ...args: any[]) {
     const inspectOptions: util.InspectOptions = {
       depth: 5,
       compact: true,

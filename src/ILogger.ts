@@ -9,7 +9,7 @@ export interface ILogger {
    * supplied args. @see util.format and @see util.formatWithOptions
    * @param args     Any arguments to fill the string
    */
-  log(message: string | object, ...args: any[]): void;
+  log(message: any, ...args: any[]): void;
 
   /**
    * Create a logging session. All logs made in the executing session with
