@@ -17,7 +17,7 @@ logger.log({
 });
 /*
  Output:
-   my_namespace "{ message: { prop: { lv1: { lv2: { nProp: 2, lv3: { sProp: 'a string' } } } } }, session: 'undefined' }" +0ms
+   my_namespace {"message":{"prop":{"lv1":{"lv2":{"nProp":2,"lv3":{"sProp":"a string"}}}}},"session":"undefined"} +0ms
 */
 
 // Session
@@ -26,7 +26,7 @@ logger
     logger.log('%d: %s', 4, 'a log message');
     /*
      Output:
-      my_namespace "{ message: '4: a log message', session: 'my session id' }" +4ms
+      my_namespace {"message":"4: a log message","session":"my session id"} +4ms
     */
 
     // Sub session
@@ -37,7 +37,7 @@ logger
       .then();
     /*
       Output:
-        my_namespace "{ message: '10: a sub log message', session: 'my session id', subSessions: [ 'my sub-session id' ] }" +0ms
+        my_namespace {"message":"10: a sub log message","session":"my session id","subSessions":["my sub-session id"]} +0ms
     */
   }, 'my session id')
   .then();

@@ -52,7 +52,7 @@ Create a logger instance.
 
 ## ILogger
 
-### `log(message: string | object, ...args: any[]): void`
+### `log(message: any, ...args: any[]): void`
 
 - return: ILogger
 - params:
@@ -101,7 +101,7 @@ Log the provided object `logMessage`
 ## ILogMessage
 
 ```javascript
-  message: string | object;
+  message: any;
   session?: string;
   subSessions?: string[];
 ```

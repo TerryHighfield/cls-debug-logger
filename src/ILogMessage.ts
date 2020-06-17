@@ -1,5 +1,5 @@
 export interface ILogMessage {
-  message: string | object;
+  message: any;
   session?: string;
   subSessions?: string[];
 }
