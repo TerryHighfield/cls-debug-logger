@@ -168,7 +168,7 @@ export class Logger implements ILogger {
    * the listeners of the event emitter will not log will the active
    * session ids
    */
-  public bindEmitter<T>(emitter: EventEmitter) {
+  public bindEmitter(emitter: EventEmitter) {
     const namespace = this.getNamespace();
     if (namespace) {
       namespace.bindEmitter(emitter);

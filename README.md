@@ -80,7 +80,7 @@ Parent session and sub-session. The first session created is considered a parent
 
 Bind a function call back to the currently executing session
 
-### `bindEmitter<T>(emitter: EventEmitter): void`
+### `bindEmitter(emitter: EventEmitter): void`
 
 - return: void
 - params:

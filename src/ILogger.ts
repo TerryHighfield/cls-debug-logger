@@ -44,5 +44,5 @@ export interface ILogger {
    * the listeners of the event emitter will not log will the active
    * session ids
    */
-  bindEmitter<T>(emitter: EventEmitter): void;
+  bindEmitter(emitter: EventEmitter): void;
 }
